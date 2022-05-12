@@ -5,5 +5,9 @@
       "preset": "conventionalcommits"
     }],
     "@semantic-release/npm",
-    "@semantic-release/release-notes-generator", "@semantic-release/github"]
+    "@semantic-release/release-notes-generator", 
+    ["@semantic-release/github", {
+      "assets": "dist/*"
+    }]
+  ]
 }
