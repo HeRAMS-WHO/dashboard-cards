@@ -156,17 +156,17 @@
           }
           option.series = Object.values(dataSetDictionary);
           chart.setOption(option);
-          chart.resize();
           
       }));
           
 
-      const resizeObserver = new ResizeObserver(() => chart.resize({height: chartContainer.clientHeight}));
+      const resizeObserver = new ResizeObserver(() => chart.resize({height: chartContainer.clientHeight, width: chartContainer.clientWidth}));
       resizeObserver.observe(chartContainer);
-
+      
       return () => {
-          subscriptions.forEach(s => s.unsubscribe());
-          chart.dispose();
+        subscriptions.forEach(s => s.unsubscribe());
+        resizeObserver.disconnect();
+        chart.dispose();
       }
 
 

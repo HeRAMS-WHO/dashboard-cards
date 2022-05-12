@@ -21,20 +21,20 @@
     $:component = cardTypes[type] ?? Dump;
 </script>
 <svelte:options tag={null} accessors/>
-    <section class="card">
-        <header>{title}</header>
-        {#if typeSelector}
-            <select bind:value={type}>{#each Object.keys(cardTypes) as cardType}
-                <option value={cardType}>{cardType}</option>
-                
-            {/each}</select>    
-        {/if}
-        
-        <div class="chart-content">
-        <svelte:component this={component} {data}/>
-        </div>
-        <footer>{#if n}<span class="count">{n}</span>{/if}</footer>
-    </section>
+<section class="card">
+    <header>{title}</header>
+    {#if typeSelector}
+        <select aria-label="typeSelector" bind:value={type}>{#each Object.keys(cardTypes) as cardType}
+            <option value={cardType}>{cardType}</option>
+            
+        {/each}</select>    
+    {/if}
+    
+    <div class="chart-content">
+    <svelte:component this={component} {data}/>
+    </div>
+    <footer>{#if n}<span class="count">{n}</span>{/if}</footer>
+</section>
 <style>
     .chart-content {
         position: relative;
