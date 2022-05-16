@@ -8,6 +8,7 @@ export default defineConfig({
       customElement: false,
       generate: "dom"
     },
+    emitCss: false
   })],
   build: {
     target: "esnext",
@@ -16,6 +17,8 @@ export default defineConfig({
       entry: 'src/cards/BaseCard.svelte',
       formats: ['es']
     },
-    
+    rollupOptions: {
+    },
+
   }
 })

@@ -1,12 +1,31 @@
 <script lang="ts">
-    import * as echarts from 'echarts';
     import { map } from 'rxjs/operators';
     import { zip, isObservable, from } from 'rxjs';
     import { onMount, afterUpdate } from 'svelte';
     import type DataPoint from '../types/DataPoint';
 
+    import * as echarts from 'echarts/core';
     
-    type EChartsOption = echarts.EChartsOption;
+    import {
+      BarChart
+    } from 'echarts/charts';
+
+
+    import type {
+      EChartsOption
+    } from 'echarts/types/dist/option';
+
+    import {
+      TitleComponent,
+      TooltipComponent,
+      GridComponent
+    } from 'echarts/components';
+
+    import {
+      SVGRenderer
+    } from 'echarts/renderers';
+    
+    echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, SVGRenderer])
     export let data = [];
 
     let chartContainer: HTMLElement;
