@@ -4,28 +4,34 @@
     import { onMount, afterUpdate } from 'svelte';
     import type DataPoint from '../types/DataPoint';
 
-    import * as echarts from 'echarts/core';
+    import * as echarts from 'echarts';
+
+    type EChartsOption = echarts.EChartsOption;
+
+    // import * as echarts from 'echarts/core';
     
-    import {
-      BarChart
-    } from 'echarts/charts';
+    // import {
+    //   BarChart
+    // } from 'echarts/charts';
 
 
-    import type {
-      EChartsOption
-    } from 'echarts/types/dist/option';
+    // import type {
+    //   EChartsOption
+    // } from 'echarts/types/dist/option';
 
-    import {
-      TitleComponent,
-      TooltipComponent,
-      GridComponent
-    } from 'echarts/components';
+    // import {
+    //   TitleComponent,
+    //   TooltipComponent,
+    //   GridComponent
+    // } from 'echarts/components';
 
-    import {
-      SVGRenderer
-    } from 'echarts/renderers';
+    // import {
+    //   SVGRenderer
+    // } from 'echarts/renderers';
     
-    echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, SVGRenderer])
+    // echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, SVGRenderer])
+
+
     export let data = [];
 
     let chartContainer: HTMLElement;
@@ -78,8 +84,11 @@
         
         const combined = zip(observableData, groups, keys);
         const dataSetDictionary = {};
-        
-        chart = echarts.init(chartContainer);
+
+        chart = echarts.init(chartContainer, null, {
+          width: 1,
+          height: 1
+        });
 
         subscriptions.push(combined.subscribe(([data, groups, keys]: [DataPoint[], string[], string[]]) => {
             // Each key results in a dataset.
@@ -107,7 +116,6 @@
                   color: backgroundColor
                 };
 
-                console.log(dataSet);
                 dataSetDictionary[key] = dataSet;
             });
             option.series = Object.values(dataSetDictionary);
@@ -116,8 +124,10 @@
             } else {
                 option.xAxis[0].data = [];
             }
-            
-            chart.setOption(option);
+            chart.setOption(option, {
+              lazyUpdate: true
+            });
+
             
             
         }));
@@ -142,5 +152,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
+      min-height: 1px;
+      min-width: 1px;
   }
 </style>

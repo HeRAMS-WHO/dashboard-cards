@@ -4,28 +4,25 @@
     import { onMount, afterUpdate } from 'svelte';
     import type DataPoint from '../types/DataPoint';
 
-    import * as echarts from 'echarts/core';
+    import * as echarts from 'echarts';
+
+    type EChartsOption = echarts.EChartsOption;
+
+    // import {
+    //   TitleComponent,
+    //   TooltipComponent,
+    //   GridComponent
+    // } from '../../node_modules/echarts/components';
+
     
-    import {
-      PieChart
-    } from 'echarts/charts';
+    // import {
+    //   SVGRenderer
+    // } from 'echarts/renderers';
 
+    // import type { EChartsOption } from 'echarts/types/dist/option';
 
-    import type {
-      EChartsOption
-    } from 'echarts/types/dist/option';
-
-    import {
-      TitleComponent,
-      TooltipComponent,
-      GridComponent
-    } from 'echarts/components';
-
-    import {
-      SVGRenderer
-    } from 'echarts/renderers';
-
-    echarts.use([TitleComponent, TooltipComponent, GridComponent, PieChart, SVGRenderer])
+    // import { PieChart } from 'echarts/charts';
+    // echarts.use([TitleComponent, TooltipComponent, GridComponent, PieChart, SVGRenderer])
     
     export let data = [];
 
@@ -65,7 +62,10 @@
       const combined = zip(observableData, groups);
       const dataSetDictionary = {};
 
-      chart = echarts.init(chartContainer);
+      chart = echarts.init(chartContainer, null, {
+          width: 1,
+          height: 1
+        });
 
       const DEFAULT_GROUP_KEY = 'default';
       subscriptions.push(combined.subscribe(([data, groups]: [Array<DataPoint>, string[]]) => {
@@ -73,8 +73,9 @@
           if (!Array.isArray(data)) {
               console.error("Data must be an array");
           }
-          
+          console.warn('groups', groups);
           if (groups.length === 0) {
+            
             const dataSet  = dataSetDictionary[DEFAULT_GROUP_KEY] ?? {};
                 const points = [];
                 let backgroundColor: string = '#ff0000';
@@ -127,13 +128,11 @@
             const left = (index:number) => {
               const xPos = index % width + 1;
               const result = (xPos * 2 - 1) * 100 / (2 * width);
-              console.log("xPos for index", index, "res:", xPos, result, "width", width);
               return result;
             };
             const top = (index:number) => {
               const yPos = Math.floor((index) / width) + 1;
               const result = (yPos) * 100 / (1 + height);
-              console.log("YPos for index", index, "res:", yPos, result, "width", width);
               return result;
             };
 
@@ -175,7 +174,9 @@
             
           }
           option.series = Object.values(dataSetDictionary);
-          chart.setOption(option);
+          chart.setOption(option, {
+              lazyUpdate: true
+            });
           
       }));
           

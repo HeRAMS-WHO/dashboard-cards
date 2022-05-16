@@ -7,7 +7,7 @@
     function randInt(min:number, max:number) {
         return Math.floor(Math.random() * (max - min) + min);
     }
-    let config = {
+    const config = {
         "data": [
             {
                 "key": "hospital",
@@ -84,6 +84,30 @@
         "n": 123
     };
 
+
+    const ungroupedData = [
+        {
+            "key": "hospital",
+            "label": "Hospital",
+            "group": null,
+            "value": randInt(10, 100),
+            "color": "#66355e"
+        },
+        {
+            "key": "mobile",
+            "label": "Mobile clinic",
+            "group": null,
+            "value": randInt(10, 100),
+            "color": "#eed6ee"
+        },
+        {
+            "key": "clinic",
+            "label": "Clinic",
+            "group": null,
+            "value": randInt(10, 100),
+            "color": "#fdd481"
+        }
+    ]
     const dataSubject = new ReplaySubject(1);
     const dataObservable = from(dataSubject);
     dataSubject.next(config.data);
@@ -123,7 +147,10 @@
     <BaseCard type="bar" data={dataObservable} title={config.title}></BaseCard>
     <BaseCard type="dump" data={dataObservable} title={config.title}></BaseCard>
     <BaseCard type="echartspie" data={dataObservable} title={config.title}></BaseCard>
+
+    <BaseCard type="echartspie" data={dataObservable} title={config.title}></BaseCard>
     <BaseCard type="echartsbar" data={dataObservable} title={config.title}></BaseCard>
+    <BaseCard type="echartspie" data={ungroupedData} title={config.title}></BaseCard>
     <!-- <BaseCard type="donut" data={dataObservable} title={config.title}></BaseCard>
     <BaseCard type="table" data={dataObservable} title={config.title}></BaseCard> -->
     <!-- <BaseCard type="polar" data={dataObservable} title={config.title}></BaseCard> -->
